@@ -1,0 +1,41 @@
+// ============================================================
+// Medidas DAX - Star Schema Vendas
+// Criar em uma tabela de medidas separada (ex.: "_Medidas")
+// ============================================================
+
+Total Vendas Brutas =
+SUM ( Fato_Vendas[Vendas_Brutas] )
+
+Total Vendas Liquidas =
+SUM ( Fato_Vendas[Vendas_Liquidas] )
+
+Total Descontos =
+SUM ( Fato_Vendas[Descontos] )
+
+Total COGS =
+SUM ( Fato_Vendas[COGS] )
+
+Total Lucro =
+SUM ( Fato_Vendas[Lucro] )
+
+Total Unidades Vendidas =
+SUM ( Fato_Vendas[Unidades_Vendidas] )
+
+Margem de Lucro % =
+DIVIDE ( [Total Lucro], [Total Vendas Liquidas], 0 )
+
+Ticket Medio =
+DIVIDE ( [Total Vendas Liquidas], [Total Unidades Vendidas], 0 )
+
+Vendas Ano Anterior =
+CALCULATE (
+    [Total Vendas Liquidas],
+    SAMEPERIODLASTYEAR ( Dim_Data[Data] )
+)
+
+Crescimento Vendas % =
+DIVIDE (
+    [Total Vendas Liquidas] - [Vendas Ano Anterior],
+    [Vendas Ano Anterior],
+    0
+)
